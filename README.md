@@ -7,7 +7,7 @@
 
 > A web solution designed to improve intercity bus ticket sales, organize operational information, and make the booking experience more accessible for passengers.
 
-## 🇬🇧 English
+## 🇪🇸 English
 
 ### 📌 Project Overview
 
