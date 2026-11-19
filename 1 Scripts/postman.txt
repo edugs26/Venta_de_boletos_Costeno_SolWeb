@@ -1,0 +1,72 @@
+POST http://localhost:8080/chofer/registrar
+Content-Type: application/json
+
+# Chofer con estado civil "Casado"
+{
+    "numDocumento": "87654321",
+    "nombres": "Carlos",
+    "apellidos": "Ramírez López",
+    "estadoCivil": "Casado",
+    "direccion": "Calle Las Flores 456",
+    "numTel": "912345678",
+    "fechaNac": "1990-03-22",
+    "fechaLicencia": "2022-12-15",
+    "licenciaConducir": "B4D5E6",
+    "estado": true
+}
+
+# Chofer con estado inactivo
+{
+    "numDocumento": "11223344",
+    "nombres": "Lucía",
+    "apellidos": "Gómez Martínez",
+    "estadoCivil": "Viuda",
+    "direccion": "Av. Primavera 789",
+    "numTel": "923456789",
+    "fechaNac": "1980-11-30",
+    "fechaLicencia": "2020-05-10",
+    "licenciaConducir": "C3F4G5",
+    "estado": false
+}
+
+# Chofer con licencia recién adquirida
+{
+    "numDocumento": "33445566",
+    "nombres": "María",
+    "apellidos": "Cabrera Ruiz",
+    "estadoCivil": "Soltera",
+    "direccion": "Pasaje Los Jardines 12",
+    "numTel": "945678123",
+    "fechaNac": "1995-07-19",
+    "fechaLicencia": "2024-01-10",
+    "licenciaConducir": "D7H8I9",
+    "estado": true
+}
+
+# Chofer con experiencia de más de 10 años
+{
+    "numDocumento": "55667788",
+    "nombres": "Alberto",
+    "apellidos": "Fernández Salazar",
+    "estadoCivil": "Casado",
+    "direccion": "Jr. Los Pinos 98",
+    "numTel": "967834561",
+    "fechaNac": "1975-04-18",
+    "fechaLicencia": "2013-09-25",
+    "licenciaConducir": "E1J2K3",
+    "estado": true
+}
+
+# Chofer con estado civil "Divorciado"
+{
+    "numDocumento": "66778899",
+    "nombres": "Raúl",
+    "apellidos": "Morales Díaz",
+    "estadoCivil": "Divorciado",
+    "direccion": "Av. Perú 456",
+    "numTel": "998712345",
+    "fechaNac": "1983-08-09",
+    "fechaLicencia": "2019-03-12",
+    "licenciaConducir": "F9G8H7",
+    "estado": false
+}

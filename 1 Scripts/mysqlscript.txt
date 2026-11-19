@@ -1,0 +1,103 @@
+#crea primero un usuario persona, luego ejecutas esto
+
+select * from persona p #confirmar que hay una persona
+
+select * from empleado e 
+describe empleado  #ayudarse para generar query
+
+insert into empleado (fecha_registro,id_persona)	#insertar primer empleado usando id persona
+values (now(),1)
+
+insert into administrador (correo,estado,password,id_persona) #generando primer empleado administrador , contraseña "abc123456" bcrypt
+values ('admin@a.a','activo','$2a$10$reBMewLhdRqXqv.hdpnHee9sn6qMwA2DBHswnRQQeHkVHl36CMbzK',1) 
+
+-- Terminal
+
+INSERT INTO terminal (coordenada_latitud, coordenada_longitud, departamento, direccion, distrito, estado, nombre, provincia)
+VALUES
+('-12.0433', '-77.0283', 'Lima', 'Jr. Carabaya 456', 'Cercado de Lima', 'activo', 'Terminal Plaza Norte', 'Lima'),
+('-13.5226', '-71.9673', 'Cusco', 'Av. Industrial 789', 'Wanchaq', 'activo', 'Terminal Cusco', 'Cusco'),
+('-9.5261', '-77.5285', 'Ancash', 'Av. Libertadores 101', 'Huaraz', 'activo', 'Terminal Huaraz', 'Huaraz'),
+('-16.4090', '-71.5374', 'Arequipa', 'Av. Ejército 123', 'Cayma', 'activo', 'Terminal Arequipa', 'Arequipa'),
+('-6.7766', '-79.8448', 'Lambayeque', 'Av. Chiclayo 456', 'Chiclayo', 'activo', 'Terminal Chiclayo', 'Chiclayo'),
+('-8.1091', '-79.0215', 'La Libertad', 'Av. España 789', 'Trujillo', 'activo', 'Terminal Trujillo', 'Trujillo'),
+('-14.8356', '-74.9389', 'Ica', 'Av. Grau 101', 'Nazca', 'activo', 'Terminal Nazca', 'Ica'),
+('-3.7327', '-73.2472', 'Loreto', 'Av. Amazonas 303', 'Iquitos', 'activo', 'Terminal Iquitos', 'Loreto');
+
+
+select * from terminal t 
+-- Ruta
+
+INSERT INTO ruta (distancia, duracion, estado_ruta, id_administrador, id_terminal_origen, id_terminal_destino)
+VALUES
+(900, '15:00:00', 'activo', 1, 1, 4),  -- Ruta de Lima a Arequipa
+(300, '05:00:00', 'activo', 1, 3, 5),  -- Ruta de Huaraz a Chiclayo
+(1200, '22:00:00', 'activo', 1, 2, 7), -- Ruta de Cusco a Nazca
+(450, '06:30:00', 'activo', 1, 6, 8),  -- Ruta de Trujillo a Iquitos
+(700, '10:00:00', 'activo', 1, 1, 2);  -- Ruta de Lima a Cusco
+
+select * from ruta r 
+
+
+# Triggers #
+
+-- Cambiar el delimitador para definir los triggers
+DELIMITER $$
+
+-- Trigger 1: Actualizar los asientos a 'OCUPADO' cuando el viaje se desactiva
+CREATE TRIGGER actualizar_asientos_inactivos
+AFTER UPDATE ON viaje
+FOR EACH ROW
+BEGIN
+  -- Verificar si el estado del viaje cambió a 'inactivo'
+  IF NEW.estado_viaje = 'inactivo' AND OLD.estado_viaje <> 'inactivo' THEN
+    -- Actualizar los asientos del bus asociado, estableciendo id_estado_asiento = 2 ('OCUPADO')
+    UPDATE asiento
+    SET id_estado_asiento = 2  -- '2' corresponde al estado 'OCUPADO' en la tabla estado_asiento
+    WHERE id_bus = NEW.id_bus;
+  END IF;
+END$$
+
+-- Trigger 2: Establecer los asientos como 'LIBRES' al insertar un nuevo viaje activo
+CREATE TRIGGER activar_asientos_libres_insert
+AFTER INSERT ON viaje
+FOR EACH ROW
+BEGIN
+  -- Verificar si el nuevo viaje tiene estado 'activo'
+  IF NEW.estado_viaje = 'activo' THEN
+    -- Actualizar los asientos del bus asociado, estableciendo id_estado_asiento = 1 ('LIBRE')
+    UPDATE asiento
+    SET id_estado_asiento = 1  -- '1' corresponde al estado 'LIBRE' en la tabla estado_asiento
+    WHERE id_bus = NEW.id_bus;
+  END IF;
+END$$
+
+-- Paso previo para Trigger 3: Añadir el campo fecha_activacion a la tabla viaje
+-- Ejecuta este comando una vez para agregar la columna necesaria
+-- ALTER TABLE viaje ADD COLUMN fecha_activacion DATETIME NULL;
+
+-- Trigger 3: Establecer los asientos como 'LIBRES' al activar un viaje existente por primera vez
+CREATE TRIGGER activar_asientos_libres_update
+AFTER UPDATE ON viaje
+FOR EACH ROW
+BEGIN
+  -- Verificar si el estado del viaje cambió a 'activo' y aún no ha sido activado antes
+  IF NEW.estado_viaje = 'activo' AND OLD.estado_viaje <> 'activo' AND NEW.fecha_activacion IS NULL THEN
+    -- Actualizar los asientos del bus asociado, estableciendo id_estado_asiento = 1 ('LIBRE')
+    UPDATE asiento
+    SET id_estado_asiento = 1  -- '1' corresponde al estado 'LIBRE' en la tabla estado_asiento
+    WHERE id_bus = NEW.id_bus;
+    
+    -- Establecer la fecha de activación para indicar que el viaje ya ha sido activado
+    UPDATE viaje
+    SET fecha_activacion = NOW()
+    WHERE id_viaje = NEW.id_viaje;
+  END IF;
+END$$
+
+-- Restaurar el delimitador predeterminado
+DELIMITER ;
+
+
+
+

@@ -1,0 +1,118 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <div class="custom-header">
+        <h1 class="text-center mb-0">Terminal</h1>
+    </div>
+    <div class="custom-container mt-0">
+        <h2 style="color: black;">Terminal</h2>
+
+        <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#terminalModal">
+                Crear Terminal
+            </button>
+            <div class="ms-auto">
+                <label for="search" class="col-form-label">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarTerminales()">
+            </div>
+        </div>
+        <div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
+                <label class="btn btn-outline-primary" for="btnradio1">Activos</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (change)="cambiarFiltro('inactivo')">
+                <label class="btn btn-outline-danger" for="btnradio2">Inactivos</label>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="terminalModal" tabindex="-1" aria-labelledby="terminalModalLabel" aria-hidden="true" inner>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="terminalModalLabel" style="color: black;">Nuevo Terminal</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="terminalForm" >
+                            <div class="mb-3">
+                                <label for="terminal-nombre" class="col-form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="terminal-nombre" formControlName="nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-direccion" class="col-form-label">Dirección:</label>
+                                <input type="text" class="form-control" id="terminal-direccion" formControlName="direccion">
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-departamento" class="col-form-label">Departamento:</label>
+                                <select class="form-select" id="terminal-departamento" formControlName="departamento" (change)="onDepartamentoChange($event)">
+                                    <option *ngFor="let departamento of departamentos" [value]="departamento.nombre">{{ departamento.nombre }}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-provincia" class="col-form-label">Provincia:</label>
+                                <select class="form-select" id="terminal-provincia" formControlName="provincia" [disabled]="!provincias.length" (change)="onProvinciaChange($event)">
+                                    <option *ngFor="let provincia of provincias" [value]="provincia.nombre">{{ provincia.nombre }}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-distrito" class="col-form-label">Distrito:</label>
+                                <select class="form-select" id="terminal-distrito" formControlName="distrito" [disabled]="!distritos.length">
+                                    <option *ngFor="let distrito of distritos" [value]="distrito">{{ distrito }}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-latitud" class="col-form-label">Coordenada Latitud:</label>
+                                <input type="text" class="form-control" id="terminal-latitud" formControlName="coordenadaLatitud">
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-longitud" class="col-form-label">Coordenada Longitud:</label>
+                                <input type="text" class="form-control" id="terminal-longitud" formControlName="coordenadaLongitud">
+                            </div>
+                            <div *ngIf="terminalForm.invalid" class="text-danger">
+                                Por favor, completa todos los campos requeridos correctamente.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="terminalForm.invalid" (click)="guardar()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Departamento</th>
+                    <th>Provincia</th>
+                    <th>Distrito</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí puedes iterar sobre los datos de los terminales -->
+                <tr *ngFor="let item of terminals | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.direccion }}</td>
+                    <td>{{ item.departamento }}</td>
+                    <td>{{ item.provincia }}</td>
+                    <td>{{ item.distrito }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#terminalModal" (click)="editar(item.idTerminal)">
+                            Editar
+                        </button>
+                        <!-- <button id="terminalModal" class="btn btn-primary btn-sm">Editar</button> -->
+                        <button class="btn btn-danger btn-sm" (click)="actualizarEstado(item.idTerminal)">Cambiar Estado</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-3">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
+    </div>
+</div>
+
+<!-- <app-footer></app-footer> -->

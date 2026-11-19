@@ -1,0 +1,33 @@
+
+# Database
+spring.datasource.url=${DB_URL:jdbc:mysql://localhost:3306/costeno}
+spring.datasource.username=${DB_USERNAME:}
+spring.datasource.password=${DB_PASSWORD:}
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+# RENIEC API
+reniec.api.url=https://api.apis.net.pe/v2/reniec/dni
+reniec.api.key=${RENIEC_API_KEY:}
+
+# Swagger
+springdoc.swagger-ui.path=/swagger-ui-custom.html
+
+# Email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=${MAIL_USERNAME:}
+spring.mail.password=${MAIL_PASSWORD:}
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.timeout=2000
+
+# Niubiz Sandbox
+niubiz.merchantId=${NIUBIZ_MERCHANT_ID:}
+niubiz.user=${NIUBIZ_USERNAME:}
+niubiz.password=${NIUBIZ_PASSWORD:}
+
+niubiz.url_auth=https://apisandbox.vnforappstest.com/api.security/v1/security
+niubiz.url_session=https://apisandbox.vnforappstest.com/api.ecommerce/v2/ecommerce/token/session
+niubiz.url_authorization=https://apisandbox.vnforappstest.com/api.authorization/v3/authorization/ecommerce

@@ -1,0 +1,21 @@
+<app-header></app-header>
+<main class="d-flex justify-content-center align-items-center" style="min-height:75vh;">
+    <div class="card mb-5 mt-5 d-flex flex-column align-items-center justify-content-center" style="width: 700px; height: 400px;">
+        <form class="m-5" style="color: black;" [formGroup]="correoForm">
+        <h2 style="font-size: 50px;">Cambiar Contraseña</h2>
+
+        <!-- Correo -->
+        <div class="mb-3">
+            <label for="correo" class="form-label mt-3" style="color: black;">Correo</label>
+            <input formControlName="correo" id="correo" type="email" class="form-control" [ngClass]="{'is-invalid': correo?.invalid && correo?.touched}">
+            <!-- Mostrar mensaje de error si el correo no es válido -->
+            <div *ngIf="correo?.invalid && correo?.touched" class="text-danger">
+            Por favor ingrese un correo válido.
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" (click)="cambiarContrasena()">Confirmar</button>
+        </form>
+    </div>
+</main>
+<app-footer></app-footer>

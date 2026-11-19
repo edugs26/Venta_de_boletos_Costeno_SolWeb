@@ -1,0 +1,51 @@
+<div class="boleto-list">
+    <div *ngFor="let group of boletosAgrupados" class="ticket-card">
+        <!-- Detalles principales del grupo de boletos -->
+        <p class="ticket-number">PNR/Ticket No: {{ group.boletos[0].idBoleto }}</p>
+        
+        <div class="trip-info">
+            <div class="boarding-info-container">
+            <div class="boarding-info">
+                <p><strong>Punto de abordaje</strong></p>
+                <p>{{ group.boletos[0].viaje.ruta.terminalOrigen.direccion }}</p>
+            </div>
+            <div class="boarding-info">
+                <p><strong>Punto de destino</strong></p>
+                <p>{{ group.boletos[0].viaje.ruta.terminalDestino.direccion }}</p>
+            </div>
+            </div>
+    
+            <div class="time-info">
+            <div class="city-time">
+                <p class="city">{{ group.boletos[0].viaje.ruta.terminalOrigen.nombre }}</p>
+                <p class="time">{{ group.boletos[0].horaEmision }}</p>
+                <p class="date">{{ group.boletos[0].fechaEmision | date: 'shortDate' }}</p>
+            </div>
+            <div class="city-time">
+                <p class="city">{{ group.boletos[0].viaje.ruta.terminalDestino.nombre }}</p>
+                <p class="time">{{ group.boletos[0].horaEmision }}</p>
+                <p class="date">{{ group.boletos[0].fechaEmision | date: 'shortDate' }}</p>
+            </div>
+            </div>
+        </div>
+    
+        <div class="trip-details">
+            <i class="bi bi-bus-front" style="color: black;"></i>
+            <div class="bus-info">
+                <p>{{ group.boletos[0].bus.modelo }}</p>
+                <p>Asientos: {{ getAsientos(group) }}</p>
+            </div>
+            <div class="trip-details-info">
+                <p><strong>Precio Total</strong></p>
+                <p>Total: $ {{ getTotalPrecio(group) }}</p>
+            </div>
+            <div>
+            <p><strong>Estado</strong></p>
+            <p>{{ group.boletos[0].estadoBoleto.estado }}</p>
+            </div>
+            <button class="view-details-btn">
+            <i class="bi bi-eye"></i>
+            </button>
+        </div>
+    </div>
+</div>

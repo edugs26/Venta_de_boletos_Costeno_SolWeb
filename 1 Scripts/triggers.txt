@@ -1,0 +1,74 @@
+DELIMITER $$
+
+CREATE TRIGGER actualizar_asientos_inactivos
+AFTER UPDATE ON viaje
+FOR EACH ROW
+BEGIN
+  IF NEW.estado_viaje = 'inactivo' AND OLD.estado_viaje <> 'inactivo' THEN
+    UPDATE asiento
+    SET id_estado_asiento = 2
+    WHERE id_bus = NEW.id_bus;
+  END IF;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE TRIGGER activar_asientos_libres_insert
+AFTER INSERT ON viaje
+FOR EACH ROW
+BEGIN
+  IF NEW.estado_viaje = 'activo' THEN
+    UPDATE asiento
+    SET id_estado_asiento = 1  -- Asumiendo que '1' es el estado 'LIBRE'
+    WHERE id_bus = NEW.id_bus;
+  END IF;
+END$$
+
+DELIMITER ;
+
+
+DELIMITER $$
+
+CREATE TRIGGER activar_asientos_libres_update
+AFTER UPDATE ON viaje
+FOR EACH ROW
+BEGIN
+  IF NEW.estado_viaje = 'activo' AND OLD.estado_viaje <> 'activo' THEN
+    UPDATE asiento
+    SET id_estado_asiento = 1  -- Asumiendo que '1' es el estado 'LIBRE'
+    WHERE id_bus = NEW.id_bus;
+  END IF;
+END$$
+
+DELIMITER ;
+
+--
+
+--Si la fecha transcurre pasa a ser inactivo
+--No va a dejar que pases a activo si es que no le cambias la fecha de llegada por una que aún no pasa
+
+DELIMITER $$
+
+CREATE TRIGGER actualizar_estado_viaje
+AFTER UPDATE ON viaje
+FOR EACH ROW
+BEGIN
+    -- Verificar si la fecha y hora de llegada ya ha pasado
+    IF (NEW.fecha_llegada < NOW() OR 
+        (NEW.fecha_llegada = NOW() AND NEW.hora_llegada <= CURTIME())) 
+        AND NEW.estado_viaje != 'inactivo' THEN
+        
+        -- Actualizar el estado a 'inactivo' solo si no está ya en ese estado
+        UPDATE viaje
+        SET estado_viaje = 'inactivo'
+        WHERE id_viaje = NEW.id_viaje;
+    END IF;
+END$$
+
+DELIMITER ;
+
+
+show triggers 
+

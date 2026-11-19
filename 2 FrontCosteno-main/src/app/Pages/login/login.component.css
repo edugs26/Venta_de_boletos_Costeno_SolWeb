@@ -1,0 +1,16 @@
+
+main{
+    min-height: 80vh;
+    
+}
+label{
+    font-size: 20px;
+   
+}
+.form-control{
+    height: 50px;
+}
+button{
+    height: 55px;
+    margin-top: 10px;
+}

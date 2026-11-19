@@ -1,0 +1,37 @@
+
+# Dependencias
+node_modules/
+
+# Compilaciones
+dist/
+build/
+coverage/
+.angular/
+target/
+
+# Secretos y configuraciones locales
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Archivos temporales
+*.log
+*.tmp
+*.bak
+
+# IDE y sistema operativo
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Configuración privada de Spring Boot
+**/src/main/resources/application.properties
+
+# Archivos locales y secretos
+.env
+.env.*
+!.env.example

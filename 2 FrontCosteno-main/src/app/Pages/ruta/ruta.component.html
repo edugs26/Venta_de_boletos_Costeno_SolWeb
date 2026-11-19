@@ -1,0 +1,112 @@
+<app-header></app-header>
+<div class="container mt-4">
+    <div class="custom-header">
+        <h1 class="text-center mb-0">Ruta</h1>
+    </div>
+    <div class="custom-container mt-0">
+        <h2 style="color: black;">Ruta</h2>
+
+        <!-- Botón para abrir el modal -->
+        <div class="d-flex align-items-center mb-3">
+            <button type="button" class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#terminalModal">
+                Crear Ruta
+            </button>
+            <div class="ms-auto">
+                <label for="search" class="col-form-label">Buscar:</label>
+                <input type="text" class="form-control form-control-sm" id="search" style="width: 150px;" [(ngModel)]="searchTerm" (input)="filtrarRutas()">
+            </div>
+        </div>
+        <div>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked (change)="cambiarFiltro('activo')">
+                <label class="btn btn-outline-primary" for="btnradio1">Activos</label>
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" (change)="cambiarFiltro('inactivo')">
+                <label class="btn btn-outline-danger" for="btnradio2">Inactivos</label>
+                
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="terminalModal" tabindex="-1" aria-labelledby="terminalModalLabel" aria-hidden="true" inner>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="terminalModalLabel" style="color: black;">Nuevo Terminal</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form [formGroup]="rutaForm" >
+                            <div class="mb-3">
+                                <label for="terminal-nombre" class="col-form-label">Origen:</label>
+                                
+                                <select class="form-select" aria-label="Default select example" formControlName="origen">
+                               
+                                    <option value="{{item.idTerminal}}"  *ngFor="let item of terminal"  >{{item.nombre}}</option>
+                                   
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-direccion" class="col-form-label">Destino:</label>
+                                
+                                <select class="form-select" aria-label="Default select example" formControlName="destino">
+                                    <option  value="{{item.idTerminal}}"   *ngFor="let item of terminal"  >{{item.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-departamento" class="col-form-label">Distancia:</label>
+                                <input type="text" class="form-control" id="terminal-departamento" formControlName="distancia">
+                            </div>
+                            <div class="mb-3">
+                                <label for="terminal-provincia" class="col-form-label">Duración:</label>
+                                <input type="text" class="form-control" id="terminal-provincia" formControlName="duracion">
+                               
+                            </div>
+                         
+                            <div *ngIf="rutaForm.invalid" class="text-danger">
+                                Por favor, completa todos los campos requeridos correctamente.
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cerrar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="rutaForm.invalid" (click)="guardar()">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>TerminalOringen</th>
+                    <th>TerminalDestino</th>
+                    <th>Distancia</th>
+                    <th>Duración</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Aquí puedes iterar sobre los datos de los terminales -->
+                <tr *ngFor="let item of rutas | paginate: { itemsPerPage: itemsPerPage, currentPage: p }">
+                    <td>{{ item.terminalOrigen.nombre }}</td>  <!-- Nombre de la terminal de origen -->
+                    <td>{{ item.terminalDestino.nombre }}</td> <!-- Nombre de la terminal de destino -->
+                    <td>{{ item.distancia }}</td>
+                    <td>{{ item.duracion }}</td>
+                    <td>{{ item.estadoRuta }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm " data-bs-toggle="modal" data-bs-target="#terminalModal" (click)="editar(item.idRuta)">
+                            Editar
+                        </button>
+                        <!-- <button id="terminalModal" class="btn btn-primary btn-sm">Editar</button> -->
+                        <button class="btn btn-danger btn-sm" (click)="actualizarEstado(item.idRuta)">Cambiar Estado</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-3">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,62 @@
+<app-header></app-header>
+<div class="container" style="min-height:75vh ;">
+    <div class="row">
+        <div class="col-md-8">
+            <div *ngFor="let i of [].constructor(cantidadAsientos); let index = index">
+                <app-pasajero [numeroPasajero]="index + 1"
+                (datosPasajeroChange)="actualizarDatosPasajero(index, $event)"></app-pasajero>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div *ngIf="viajeSeleccionado" class="card reserva-card">
+                <div class="card-header">
+                    DETALLE DE RESERVA
+                </div>
+                <div class="card-body text-center">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <p><strong>{{ viajeSeleccionado.ruta.terminalOrigen.nombre }}</strong></p>
+                            <p>{{ viajeSeleccionado.horaSalida }} h</p>
+                            <p>{{ viajeSeleccionado.fechaSalida | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                        
+                        <!-- Icono de flecha en el centro -->
+                        <div class="col-auto">
+                            <p class="flecha-icono">➔</p> <!-- Puedes cambiar el icono según prefieras -->
+                        </div>
+                        
+                        <div class="col">
+                            <p><strong>{{ viajeSeleccionado.ruta.terminalDestino.nombre }}</strong></p>
+                            <p>{{ viajeSeleccionado.horaLlegada }} h</p>
+                            <p>{{ viajeSeleccionado.fechaLlegada | date: 'dd/MM/yyyy' }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer text-left">
+                    <div>
+                        <h5 style="color: black;">Asientos Seleccionados</h5>
+                        <p>{{ asientosSeleccionados.join(', ') }}</p>
+                    </div>
+                    <div>
+                        <h5 style="color: black;">Total</h5>
+                        <p> S/.{{ totalAPagar }}</p>
+                    </div>
+                
+                   <!-- Botón para validar los datos de los pasajeros -->
+                   <button (click)="continuarConElPago()" class="btn btn-primary btn-lg rounded shadow-sm hover-shadow">Validar y Continuar</button>
+
+
+<!-- Contenedor para el botón de pago de MercadoPago -->
+<div *ngIf="preferenceId && pasajerosValidos" id="wallet_container"></div>
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-footer></app-footer>
