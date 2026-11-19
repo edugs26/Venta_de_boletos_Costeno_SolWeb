@@ -59,7 +59,7 @@ The project reinforced my understanding of the relationship between **software d
 
 - 🎨 [Figma design prototype](https://www.figma.com/design/YilmqFTE1rHChF08AcnBWo/Proyecto-Buses)
 - 💻 [Team backend repository](https://github.com/JorgeRiveraMio/CostenoBack)
-- 🖥️ [Team frontend repository](https://github.com/JorgeRiveraMio/FrontCosteno)
+- 🖥️ [Team frontend repository](https://github.com/edugs26/Venta_de_boletos_Costeno_SolWeb/tree/main/2%20FrontCosteno-main)
 
 > **Repository scope:** This repository documents an academic team project. Source code is linked to the team repositories above. Availability and permissions of those repositories may vary.
 
@@ -124,7 +124,7 @@ Este proyecto reforzó mi comprensión de cómo se relacionan el **desarrollo de
 
 - 🎨 [Prototipo en Figma](https://www.figma.com/design/YilmqFTE1rHChF08AcnBWo/Proyecto-Buses)
 - 💻 [Repositorio backend del equipo](https://github.com/JorgeRiveraMio/CostenoBack)
-- 🖥️ [Repositorio frontend del equipo](https://github.com/JorgeRiveraMio/FrontCosteno)
+- 🖥️ [Repositorio frontend del equipo](https://github.com/edugs26/Venta_de_boletos_Costeno_SolWeb/tree/main/2%20FrontCosteno-main)
 
 > **Alcance del repositorio:** Este repositorio documenta un proyecto académico grupal. El código fuente se encuentra enlazado en los repositorios del equipo. Su disponibilidad y permisos pueden variar.
 
